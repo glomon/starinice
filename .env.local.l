@@ -1,1 +1,0 @@
-NEXT_PUBLIC_MEDUSA_BACKEND_URL=http://medusa-server:9000

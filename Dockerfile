@@ -1,8 +1,8 @@
-FROM node:18-slim
+FROM node:latest
 
 WORKDIR /app
 
-COPY package.json yarn.lock ./
+COPY ..
 
 # Install Python (for node-gyp etc.)
 RUN apt-get update && \

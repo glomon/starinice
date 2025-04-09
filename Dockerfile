@@ -1,15 +1,28 @@
-FROM node:latest
+# Use official Node.js LTS image for better stability
+FROM node:18-slim
 
-WORKDIR /src/admin
+# Set working directory
+WORKDIR /app/medusa
 
-COPY . .
+# Copy package files first for better caching of dependencies
+COPY package.json yarn.lock ./
 
-RUN apt-get update && apt-get install -y python3 python3-pip python-is-python3
+# Install Python and required packages
+RUN apt-get update && \
+    apt-get install -y python3 python3-pip && \
+    ln -s /usr/bin/python3 /usr/bin/python && \
+    apt-get clean && \
+    rm -rf /var/lib/apt/lists/*
 
+# Install Medusa CLI globally
 RUN yarn global add @medusajs/medusa-cli
 
-RUN yarn
+# Install project dependencies
+COPY . .
+RUN yarn install
 
+# Build the project
 RUN yarn build
 
+# Run database migrations and start server
 CMD medusa migrations run && yarn start

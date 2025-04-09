@@ -1,6 +1,6 @@
 FROM node:latest
 
-WORKDIR /app/medusa
+
 
 COPY . .
 
